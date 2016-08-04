@@ -8,8 +8,8 @@ const HEIGHT = 360;
 const SIZE   = WIDTH * HEIGHT;
 
 // buffer for store ineligible positions of circles
-var buffer = new ArrayBuffer(SIZE * 4);
-var area   = new Int32Array(buffer);
+var buffer = new ArrayBuffer(SIZE);
+var area   = new Int8Array(buffer);
 
 // chunk size
 const CHUNK_SIZE = MAX_R * 2;
@@ -155,7 +155,7 @@ function reduceArea(circle) {
   var length = endX - beginX;
   var index  = getIndex(beginX, beginY);
   for (var y = beginY; y <= endY; ++y) {
-    area.fill(-1, index, index + length);
+    area.fill(1, index, index + length);
     index += WIDTH;
   }
 }
@@ -165,11 +165,6 @@ function setup() {
 
   stroke('black');
   strokeWeight(1);
-
-  // init buffer
-  for (var i = 0; i < SIZE; ++i) {
-    area[i] = i;
-  }
 
   // create chunks
   for (var j = 0; j < CHUNK_ROWS; ++j) {
@@ -190,10 +185,10 @@ function generate() {
   // get random allowable position
   do {
     index = getRandomInt(0, SIZE);
-  } while(area[index] == -1);
+  } while(area[index] == 1);
 
 
-  var center = getPos(area[index]);
+  var center = getPos(index);
   var radius = getRadius(center.x, center.y);
 
   if(radius !== false) {
