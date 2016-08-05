@@ -4,7 +4,7 @@ const MAX_R = 36;
 
 // canvas size
 const WIDTH  = 640;
-const HEIGHT = 360;
+const HEIGHT = 480;
 const SIZE   = WIDTH * HEIGHT;
 
 // buffer for store ineligible positions of circles
@@ -135,22 +135,10 @@ const SQRT = 1 / Math.sqrt(2);
 function reduceArea(circle) {
   var size = round((circle.radius + MIN_R - 1) * SQRT);
 
-  var beginX = circle.x - size;
-  if (beginX < 0) {
-    beginX = 0;
-  }
-  var endX = circle.x + size;
-  if (endX > WIDTH - 1) {
-    endX = WIDTH - 1;
-  }
-  var beginY = circle.y - size;
-  if (beginY < 0) {
-    beginY = 0;
-  }
-  var endY = circle.y + size;
-  if (endY > HEIGHT - 1) {
-    endY = HEIGHT - 1;
-  }
+  var beginX = constrain(circle.x - size, 0, WIDTH);
+  var beginY = constrain(circle.y - size, 0, HEIGHT);
+  var endX   = constrain(circle.x + size, 0, WIDTH);
+  var endY   = constrain(circle.y + size, 0, HEIGHT);
 
   var length = endX - beginX;
   var index  = getIndex(beginX, beginY);
