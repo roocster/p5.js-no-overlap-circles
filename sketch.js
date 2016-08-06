@@ -18,9 +18,6 @@ const CHUNK_ROWS = Math.ceil(HEIGHT / CHUNK_SIZE);
 
 var chunks = [];
 
-// count of circles
-var count = 0;
-
 // circle obj
 function Circle(x, y, radius) {
   this.x = x;
@@ -28,6 +25,7 @@ function Circle(x, y, radius) {
   this.radius = radius;
 
   this.show = function() {
+    fill(random(0, 255));
     ellipse(x, y, radius * 2, radius * 2);
   }
 }
@@ -127,7 +125,8 @@ function getRadius(x, y) {
   }
 
   // return max;
-  return random(MIN_R, max);
+  // return random(MIN_R, max);
+  return constrain(random(MIN_R, MAX_R), MIN_R, max);
 }
 
 const SQRT = 1 / Math.sqrt(2);
@@ -162,7 +161,7 @@ function setup() {
     }
   }
 
-  for(i = 0; i < 10000; ++i) {
+  for(i = 0; i < 12000; ++i) {
     generate();
   }
 }
@@ -185,7 +184,6 @@ function generate() {
 
     // put a circle in the corresponding chunk
     chunks[chunk.row][chunk.col].push(circle);
-    ++count;
 
     reduceArea(circle);
 
